@@ -153,10 +153,6 @@ $ yarn start
 <img alt="WhatsApp" src="https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white"/>
 </a>
 
-<a href="https://join.skype.com/invite/tvBbOq03j5Uu" target="_blank">
-<img alt="Skype" src="https://img.shields.io/badge/SKYPE-%2300AFF0.svg?style=for-the-badge&logo=Skype&logoColor=white"/>
-</a>
-
 <br/>
 <br/>
 </div>
