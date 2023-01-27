@@ -26,8 +26,8 @@ export function Home() {
   }, []);
 
   return (
-    <div className="w-screen h-screen flex justify-center items-center px-2">
-      <div className="w-full max-w-5xl px-6 flex flex-col md:gap-16 sm:gap-[30rem]">
+    <div className="w-full flex justify-center items-center transition-all  bg-[color:var(--bg-color)]">
+      <div className="w-full max-w-5xl px-6 flex flex-col md:gap-16 sm:mb-10">
         <Header />
         <SummaryTable />
       </div>

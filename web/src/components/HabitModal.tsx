@@ -61,11 +61,11 @@ export function HabitModal({ date, handleCompletedPercentage, completedPercentag
   }
 
   return (
-    <Popover.Content className='min-w-[320px] p-6 rounded-2xl bg-zinc-900 flex flex-col focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 focus:ring-offset-zinc-900 z-20'>
-      <span className='font-semibold text-zinc-400 first-letter:capitalize'>
+    <Popover.Content className='min-w-[320px] p-6 rounded-2xl bg-[color:var(--bg-color-modal)] flex flex-col focus:outline-none focus:ring-2 focus:ring-[color:var(--primary-focus-color)] focus:ring-offset-2 focus:ring-offset-zinc-900 z-20'>
+      <span className='font-semibold text-[color:var(--text-color)] first-letter:capitalize'>
         {dayOfWeek}
       </span>
-      <span className='mt-1 font-extrabold loading-tight text-3xl'>
+      <span className='mt-1 font-extrabold loading-tight text-3xl text-[color:var(--text-color)]'>
         {dateAndMonth}
       </span>
       <ProgressBar progress={completedPercentage} />

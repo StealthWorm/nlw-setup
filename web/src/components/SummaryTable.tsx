@@ -30,24 +30,23 @@ export function SummaryTable() {
   }, []);
 
   return (
-    <div className='w-full flex z-10 
+    <div className='w-full flex transition-all z-0
       sm:flex-col sm:px-8
       md:flex-row md:px-0
     '
     >
       {/* <button type='button' onClick={() => signOut(auth)}>Logout</button> */}
       <div className='grid gap-3
-        sm:grid-flow-col
-        md:grid-flow-row
+        sm:grid-flow-col sm:sticky sm:top-[12rem]
+        md:grid-flow-row md:relative md:top-0
       '
       >
         {weekDays.map((weekDay, index) => {
           return (
             <div
               key={`${weekDay}-${index}`}
-              className='text-zinc-400 text-xl font-bold h-10 w-10 flex items-center justify-center
-              sm:relative
-              md:relative
+              className='text-[color:var(--text-color)] text-xl font-bold h-10 w-10 flex items-center justify-center
+            
               '
             >
               {weekDay}
@@ -57,7 +56,7 @@ export function SummaryTable() {
       </div>
       <div className='grid gap-3
       sm:grid-cols-7 sm:grid-flow-row
-      md:grid-rows-7 md:grid-flow-col md:relative
+      md:grid-rows-7 md:grid-flow-col 
       '
       >
         {summary.length > 0 &&

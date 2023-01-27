@@ -4,12 +4,9 @@ module.exports = {
     './src/**/*.tsx',
     './index.html'
   ],
+  darkMode: ['class', '[data-theme="dark"]'],
   theme: {
     extend: {
-      colors: {
-        background: '#09090A'
-      },
-
       boxShadow: {
         'custom-md': '0 0 40px 1px rgba(0, 0, 0, 0.3)',
       },
@@ -24,7 +21,7 @@ module.exports = {
 
       animation: {
         'spin-once': 'spin 0.3s linear',
-      }
+      },
     },
   },
   plugins: [],

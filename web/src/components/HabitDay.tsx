@@ -31,7 +31,7 @@ export function HabitDay({ defaultCompleted = 0, defaultAmount = 0, date }: Habi
           'w-10 h-10 border-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-background',
           {
             'animate-pulse shadow-emerald-500 shadow-custom-md border-emerald-100': isCurrentDay,
-            'bg-zinc-900 border-emerald-900': completedPercentage === 0,
+            ' border-emerald-900': completedPercentage === 0,
             'bg-emerald-900 border-emerald-700':
               completedPercentage > 0 && completedPercentage < 20,
             'bg-emerald-800 border-emerald-600':
