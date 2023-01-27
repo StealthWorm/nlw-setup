@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import dayjs from 'dayjs';
 import { api } from '../lib/axios';
@@ -6,6 +6,7 @@ import { api } from '../lib/axios';
 import { HabitsList } from './HabitsList';
 import { ProgressBar } from './ProgressBar';
 import { calculateCompletedPercentage } from '../utils/calculate-completed-percentage';
+import { AuthContext } from '../contexts/AuthContext';
 
 interface HabitModalProps {
   date: Date;
@@ -23,25 +24,26 @@ export interface HabitsInfo {
 }
 
 export function HabitModal({ date, handleCompletedPercentage, completedPercentage }: HabitModalProps) {
+  const { currentUser } = useContext(AuthContext);
   const [habitsInfo, setHabitsInfo] = useState<HabitsInfo>();
 
   const dateAndMonth = dayjs(date).format('DD/MM');
   const dayOfWeek = dayjs(date).format('dddd');
 
   useEffect(() => {
-    api.get('day', {
-      params: {
-        date: date.toISOString(),
-      },
-    })
-      .then((response) => {
-        setHabitsInfo(response.data);
-        const updatedCompletedPercentage = calculateCompletedPercentage(
-          response.data.possibleHabits.length,
-          response.data.completedHabits.length
-        );
-        handleCompletedPercentage(updatedCompletedPercentage);
-      });
+      api.get('day', {
+        params: {
+          date: date.toISOString(),
+        },
+      })
+        .then((response) => {
+          setHabitsInfo(response.data);
+          const updatedCompletedPercentage = calculateCompletedPercentage(
+            response.data.possibleHabits.length,
+            response.data.completedHabits.length
+          );
+          handleCompletedPercentage(updatedCompletedPercentage);
+        });
   }, []);
 
   function handleCompletedChanged(
@@ -59,7 +61,7 @@ export function HabitModal({ date, handleCompletedPercentage, completedPercentag
   }
 
   return (
-    <Popover.Content className='min-w-[320px] p-6 rounded-2xl bg-zinc-900 flex flex-col focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-zinc-900'>
+    <Popover.Content className='min-w-[320px] p-6 rounded-2xl bg-zinc-900 flex flex-col focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 focus:ring-offset-zinc-900 z-20'>
       <span className='font-semibold text-zinc-400 first-letter:capitalize'>
         {dayOfWeek}
       </span>

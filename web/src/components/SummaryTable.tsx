@@ -1,8 +1,12 @@
 import { HabitDay } from './HabitDay';
 import { generateDatesFromYearBeginning } from '../utils/generate-dates-from-year-beginning';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { api } from '../lib/axios';
 import dayjs from 'dayjs';
+import { AuthContext } from '../contexts/AuthContext';
+
+import { GoogleAuthProvider, signOut } from "firebase/auth";
+import { auth } from "../lib/firebase"
 
 const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 const summaryDates = generateDatesFromYearBeginning();
@@ -24,22 +28,38 @@ export function SummaryTable() {
       setSummary(response.data);
     });
   }, []);
-  
+
   return (
-    <div className='w-full flex'>
-      <div className='grid grid-rows-7 grid-flow-row gap-3'>
+    <div className='w-full flex z-10 
+      sm:flex-col sm:px-8
+      md:flex-row md:px-0
+    '
+    >
+      {/* <button type='button' onClick={() => signOut(auth)}>Logout</button> */}
+      <div className='grid gap-3
+        sm:grid-flow-col
+        md:grid-flow-row
+      '
+      >
         {weekDays.map((weekDay, index) => {
           return (
             <div
               key={`${weekDay}-${index}`}
-              className='text-zinc-400 text-xl font-bold h-10 w-10 flex items-center justify-center'
+              className='text-zinc-400 text-xl font-bold h-10 w-10 flex items-center justify-center
+              sm:relative
+              md:relative
+              '
             >
               {weekDay}
             </div>
           );
         })}
       </div>
-      <div className='grid grid-rows-7 grid-flow-col gap-3'>
+      <div className='grid gap-3
+      sm:grid-cols-7 sm:grid-flow-row
+      md:grid-rows-7 md:grid-flow-col md:relative
+      '
+      >
         {summary.length > 0 &&
           summaryDates.map((date) => {
             const dayInSummary = summary.find((day) => {

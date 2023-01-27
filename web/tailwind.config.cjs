@@ -16,6 +16,14 @@ module.exports = {
 
       gridTemplateRows: {
         7: 'repeat(7, minmax(0, 1fr))',
+      },
+
+      gridTemplateColumns: {
+        7: 'repeat(7, minmax(0, 1fr))',
+      },
+
+      animation: {
+        'spin-once': 'spin 0.3s linear',
       }
     },
   },

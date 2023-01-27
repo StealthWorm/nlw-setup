@@ -11,9 +11,36 @@ const secondHabitCreationDate = new Date('2023-01-03T03:00:00.000')
 const thirdHabitId = 'fa1a1bcf-3d87-4626-8c0d-d7fd1255ac00'
 const thirdHabitCreationDate = new Date('2023-01-08T03:00:00.000')
 
+const firstUserId = '0286e1e6-25a9-49ff-8cae-fead7b155d5f'
+const secondUserId = '9e8b7b8f-2181-420a-8d90-c6bcfb505e41'
+
 async function run() {
   await prisma.habit.deleteMany()
   await prisma.day.deleteMany()
+  await prisma.user.deleteMany()
+
+   /**
+   * Create user
+   */
+   await Promise.all([
+    prisma.user.create({
+      data: {
+        id: firstUserId,
+        name: 'Lucas',
+        photo: 'Sem foto',
+        email: 'Lucas@gmail.com',
+      }
+    }),
+
+    prisma.user.create({
+      data: {
+        id: secondUserId,
+        name: 'juca',
+        photo: 'Sem foto',
+        email: 'Juca@gmail.com',
+      }
+    }),
+   ])
 
   /**
    * Create habits
@@ -24,6 +51,7 @@ async function run() {
         id: firstHabitId,
         title: 'Beber 2L água',
         created_at: firstHabitCreationDate,
+        // userId: firstUserId,
         weekDays: {
           create: [
             { week_day: 1 },
@@ -39,6 +67,7 @@ async function run() {
         id: secondHabitId,
         title: 'Exercitar',
         created_at: secondHabitCreationDate,
+        // userId: firstUserId,
         weekDays: {
           create: [
             { week_day: 3 },
@@ -54,6 +83,7 @@ async function run() {
         id: thirdHabitId,
         title: 'Dormir 8h',
         created_at: thirdHabitCreationDate,
+        // userId: secondUserId,
         weekDays: {
           create: [
             { week_day: 1 },
