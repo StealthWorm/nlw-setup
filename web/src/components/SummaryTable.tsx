@@ -1,12 +1,8 @@
 import { HabitDay } from './HabitDay';
 import { generateDatesFromYearBeginning } from '../utils/generate-dates-from-year-beginning';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from '../lib/axios';
 import dayjs from 'dayjs';
-import { AuthContext } from '../contexts/AuthContext';
-
-import { GoogleAuthProvider, signOut } from "firebase/auth";
-import { auth } from "../lib/firebase"
 
 const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 const summaryDates = generateDatesFromYearBeginning();
@@ -35,7 +31,6 @@ export function SummaryTable() {
       md:flex-row md:px-0
     '
     >
-      {/* <button type='button' onClick={() => signOut(auth)}>Logout</button> */}
       <div className='grid gap-3
         sm:grid-flow-col sm:sticky sm:top-[12rem]
         md:grid-flow-row md:relative md:top-0

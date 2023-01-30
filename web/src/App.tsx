@@ -4,8 +4,6 @@ import Router from './routes';
 import { ThemeSwitch } from './components/ThemeSwitch';
 
 export function App() {
-
-
   return (
     <>
       <ThemeSwitch />
