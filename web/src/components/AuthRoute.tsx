@@ -19,8 +19,8 @@ const AuthRoute: React.FC<IAuthRouteProps> = props => {
     if (user) {
       setLoading(false)
     } else {
-      console.log('unauthorized')
       navigate('/')
+      console.log('unauthorized')
     }
   })
 

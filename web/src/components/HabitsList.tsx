@@ -1,6 +1,7 @@
 import * as Checkbox from '@radix-ui/react-checkbox';
 import dayjs from 'dayjs';
 import { Check } from 'phosphor-react';
+import { useMutation } from 'react-query';
 import { api } from '../lib/axios';
 import { calculateCompletedPercentage } from '../utils/calculate-completed-percentage';
 
@@ -17,7 +18,7 @@ interface HabitsListProps {
 }
 
 export function HabitsList({ date, handleCompletedPercentage, habitsInfo, onCompletedChanged }: HabitsListProps) {
-  async function handleToggleHabit(habitId: string) {
+  const { mutate: handleToggleHabit } = useMutation(async (habitId: string) => {
     api.patch(`habits/${habitId}/toggle`);
 
     const isHabitAlreadyCompleted =
@@ -39,7 +40,7 @@ export function HabitsList({ date, handleCompletedPercentage, habitsInfo, onComp
     );
     handleCompletedPercentage(updatedCompletedPercentage);
     onCompletedChanged(habitsInfo, completedHabits);
-  }
+  })
 
   const isDateInPast = dayjs(date).endOf('day').isBefore(new Date());
 

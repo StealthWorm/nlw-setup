@@ -7,6 +7,7 @@ import { HabitsList } from './HabitsList';
 import { ProgressBar } from './ProgressBar';
 import { calculateCompletedPercentage } from '../utils/calculate-completed-percentage';
 import { AuthContext } from '../contexts/AuthContext';
+import { useMutation } from 'react-query';
 
 interface HabitModalProps {
   date: Date;
@@ -31,20 +32,39 @@ export function HabitModal({ date, handleCompletedPercentage, completedPercentag
   const dayOfWeek = dayjs(date).format('dddd');
 
   useEffect(() => {
-      api.get('day', {
-        params: {
-          date: date.toISOString(),
-        },
-      })
-        .then((response) => {
-          setHabitsInfo(response.data);
-          const updatedCompletedPercentage = calculateCompletedPercentage(
-            response.data.possibleHabits.length,
-            response.data.completedHabits.length
-          );
-          handleCompletedPercentage(updatedCompletedPercentage);
-        });
+    getHabitsData();
   }, []);
+
+  const { mutate: getHabitsData } = useMutation(async () => {
+    const response = await api.get<HabitsInfo>('/day', {
+      params: {
+        date: date.toISOString(),
+      },
+    }).then((response) => {
+      setHabitsInfo(response.data);
+      const updatedCompletedPercentage = calculateCompletedPercentage(
+        response.data.possibleHabits.length,
+        response.data.completedHabits.length
+      );
+      handleCompletedPercentage(updatedCompletedPercentage);
+    });
+  });
+
+  // useEffect(() => {
+  //     api.get('day', {
+  //       params: {
+  //         date: date.toISOString(),
+  //       },
+  //     })
+  //       .then((response) => {
+  //         setHabitsInfo(response.data);
+  //         const updatedCompletedPercentage = calculateCompletedPercentage(
+  //           response.data.possibleHabits.length,
+  //           response.data.completedHabits.length
+  //         );
+  //         handleCompletedPercentage(updatedCompletedPercentage);
+  //       });
+  // }, []);
 
   function handleCompletedChanged(
     habitsInfo: HabitsInfo,

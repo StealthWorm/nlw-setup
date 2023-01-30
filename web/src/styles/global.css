@@ -27,3 +27,7 @@
   --text-color: #52525b;
   --text-color-placeholder: #a1a1aa;
 }
+
+* {
+  -webkit-font-smoothing: antialiased;
+}

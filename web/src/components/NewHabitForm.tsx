@@ -2,6 +2,8 @@ import { Check } from "phosphor-react";
 import * as Checkbox from '@radix-ui/react-checkbox';
 import { FormEvent, useState } from "react";
 import { api } from "../lib/axios";
+import { useMutation, useQueryClient } from 'react-query';
+import { Oval } from 'react-loader-spinner';
 
 const availableWeekDays = [
   'Domingo',
@@ -14,22 +16,42 @@ const availableWeekDays = [
 ]
 
 export function NewHabitForm() {
-
   const [title, setTitle] = useState('')
   const [weekDays, setWeekDays] = useState<number[]>([])
+
+  const queryClient = useQueryClient();
+
+  const { isLoading, mutate } = useMutation(
+    async () => {
+      await api.post('/habits', {
+        title,
+        weekDays,
+      });
+    },
+    {
+      onSuccess: () => queryClient.invalidateQueries('summary'),
+    }
+  );
 
   async function createNewHabit(event: FormEvent) {
     event.preventDefault()
 
     if (!title || weekDays.length === 0) {
+      alert('Preencha o título do hábito');
       return
     }
 
-    await api.post('habits', {
-      title,
-      weekDays
-    })
+    if (weekDays.length === 0) {
+      alert('Selecione pelo menos um dia de recorrência para seu hábito');
+      return;
+    }
 
+    // await api.post('habits', {
+    //   title,
+    //   weekDays
+    // })
+
+    mutate();
     setTitle('')
     setWeekDays([])
 
@@ -91,8 +113,25 @@ export function NewHabitForm() {
         type="submit"
         className="mt-6 rounded-lg p-4 flex items-center justify-center gap-3 font-semibold bg-[color:var(--primary-focus-color)] hover:bg-green-500 transition-colors focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-zinc-900"
       >
-        <Check size={20} weight="bold" />
-        Confirmar
+        {!isLoading && (
+          <>
+            <Check size={20} weight="bold" />
+            Confirmar
+          </>
+        )}
+
+        {isLoading && (
+          <Oval
+            height={30}
+            width={30}
+            visible={true}
+            ariaLabel="oval-loading"
+            secondaryColor="#cfcfcf"
+            strokeWidth={4}
+            strokeWidthSecondary={4}
+            color="#ffffff"
+          />
+        )}
       </button>
     </form>
   )
