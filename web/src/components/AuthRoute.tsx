@@ -28,15 +28,15 @@ export const AuthRoute: React.FC<IAuthRouteProps> = ({ children }) => {
 
         setLoading(false)
       } else {
-        setCurrentUser(null)
         navigate('/')
+        setCurrentUser(null)
       }
     })
 
     return () => {
       unsubscribe();
     };
-  }, [auth, navigate, setCurrentUser]);
+  }, [auth, navigate, setCurrentUser]);  
 
   if (loading)
     return (
