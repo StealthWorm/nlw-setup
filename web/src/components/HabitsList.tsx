@@ -1,7 +1,9 @@
 import * as Checkbox from '@radix-ui/react-checkbox';
 import dayjs from 'dayjs';
 import { Check } from 'phosphor-react';
+import { useContext } from 'react';
 import { useMutation } from 'react-query';
+import { AuthContext } from '../contexts/AuthContext';
 import { api } from '../lib/axios';
 import { calculateCompletedPercentage } from '../utils/calculate-completed-percentage';
 
@@ -18,18 +20,18 @@ interface HabitsListProps {
 }
 
 export function HabitsList({ date, handleCompletedPercentage, habitsInfo, onCompletedChanged }: HabitsListProps) {
-  const { mutate: handleToggleHabit } = useMutation(async (habitId: string) => {
-    api.patch(`habits/${habitId}/toggle`);
+  const { currentUser } = useContext(AuthContext);
 
-    const isHabitAlreadyCompleted =
-      habitsInfo.completedHabits.includes(habitId);
+  const { mutate: handleToggleHabit } = useMutation(async (habitId: string) => {
+    if(currentUser)
+    await api.patch(`habits/${habitId}/toggle/${currentUser.id }`);
+
+    const isHabitAlreadyCompleted = habitsInfo!.completedHabits.includes(habitId);
 
     let completedHabits: string[] = [];
 
     if (isHabitAlreadyCompleted) {
-      completedHabits = habitsInfo.completedHabits.filter(
-        (id) => id !== habitId
-      );
+      completedHabits = habitsInfo!.completedHabits.filter((id) => id !== habitId);
     } else {
       completedHabits = [...habitsInfo.completedHabits, habitId];
     }
@@ -38,6 +40,7 @@ export function HabitsList({ date, handleCompletedPercentage, habitsInfo, onComp
       habitsInfo.possibleHabits.length,
       completedHabits.length
     );
+
     handleCompletedPercentage(updatedCompletedPercentage);
     onCompletedChanged(habitsInfo, completedHabits);
   })

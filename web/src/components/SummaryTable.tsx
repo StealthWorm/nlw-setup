@@ -1,11 +1,12 @@
 import { HabitDay } from './HabitDay';
 import { generateDatesFromYearBeginning } from '../utils/generate-dates-from-year-beginning';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { api } from '../lib/axios';
 import dayjs from 'dayjs';
 import { useQuery } from 'react-query';
 import { Oval } from 'react-loader-spinner';
 import { WarningCircle } from 'phosphor-react';
+import { AuthContext } from '../contexts/AuthContext';
 
 const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 const summaryDates = generateDatesFromYearBeginning();
@@ -21,18 +22,17 @@ type Summary = {
 
 export function SummaryTable() {
   // const [summary, setSummary] = useState<Summary>([]);
+  const { currentUser } = useContext(AuthContext);
 
-  const {
-    data: summary,
-    isFetching,
-    isError,
-  } = useQuery('summary', async () => {
-    const response = await api.get<Summary[]>('/summary');
+  const { data: summary, isFetching, isError } = useQuery('summary', async () => {
+    const response = await api.get<Summary[]>('/summary', { params: { id_user: currentUser?.id } });
 
     return response.data;
-  }, {
-    staleTime: 1000 * 60 //1min
-  });
+  },
+    {
+      staleTime: 1000 * 60 //1min
+    }
+  );
 
   // useEffect(() => {
   //   api.get('summary').then((response) => {
@@ -97,16 +97,18 @@ export function SummaryTable() {
       </div>
 
       {isFetching &&
-        <Oval
-          height={30}
-          width={30}
-          visible={true}
-          ariaLabel="oval-loading"
-          secondaryColor="#cfcfcf"
-          strokeWidth={4}
-          strokeWidthSecondary={4}
-          color="#ffffff"
-        />
+        <div className='w-10 h-10 bg-zinc absolute'>
+          <Oval
+            height={30}
+            width={30}
+            visible={true}
+            ariaLabel="oval-loading"
+            secondaryColor="#cfcfcf"
+            strokeWidth={4}
+            strokeWidthSecondary={4}
+            color="#ffffff"
+          />
+        </div>
       }
 
       {isError && (

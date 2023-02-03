@@ -1,9 +1,10 @@
 import { Check } from "phosphor-react";
 import * as Checkbox from '@radix-ui/react-checkbox';
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { api } from "../lib/axios";
 import { useMutation, useQueryClient } from 'react-query';
 import { Oval } from 'react-loader-spinner';
+import { AuthContext } from "../contexts/AuthContext";
 
 const availableWeekDays = [
   'Domingo',
@@ -16,6 +17,8 @@ const availableWeekDays = [
 ]
 
 export function NewHabitForm() {
+  const { currentUser } = useContext(AuthContext);
+
   const [title, setTitle] = useState('')
   const [weekDays, setWeekDays] = useState<number[]>([])
 
@@ -26,6 +29,7 @@ export function NewHabitForm() {
       await api.post('/habits', {
         title,
         weekDays,
+        id_user: currentUser?.id
       });
     },
     {

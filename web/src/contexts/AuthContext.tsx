@@ -1,7 +1,6 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
-import { api } from '../lib/axios';
+import { createContext, ReactNode, useState } from 'react';
 
-type User = {
+export type User = {
   id: string,
   name?: string,
   photo?: string,
@@ -9,31 +8,22 @@ type User = {
 }
 
 interface UserContextProps {
-  currentUser: User | any;
-  setCurrentUser: React.Dispatch<React.SetStateAction<User | any>>;
-  list: User[]
+  currentUser: User | null;
+  setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 type AuthContextProviderProps = {
-  children?: ReactNode | undefined;
+  children?: ReactNode;
 }
 
 export const AuthContext = createContext({} as UserContextProps);
 
 export default function AuthContextProvider(props: AuthContextProviderProps) {
-  const [list, setList] = useState<User[]>([])
-  const [currentUser, setCurrentUser] = useState<User>()
-  
-  useEffect(() => {
-    api.get('users').then((response) => {
-      setList(response.data)
-    });
-  }, [])
+  const [currentUser, setCurrentUser] = useState<User | null>(null)
 
   let value = {
     currentUser,
     setCurrentUser,
-    list
   }
 
   return (

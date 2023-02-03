@@ -1,79 +1,42 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../lib/firebase"
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../contexts/AuthContext';
+import { AuthContext, User } from '../contexts/AuthContext';
 import { GoogleLogo } from 'phosphor-react';
+import { api } from '../lib/axios';
 
 export function Login() {
-  // const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { setCurrentUser } = useContext(AuthContext);
   const navigate = useNavigate()
   const [authing, setAuthing] = useState(false)
-
-  // useEffect(() => {
-  //   auth.onAuthStateChanged(user => {
-  //     if (user) {
-  //       const { displayName, email, photoURL } = user;
-
-  //       try {
-  //         let newUser: any = api.post('users', {
-  //           name: displayName,
-  //           photo: photoURL,
-  //           email: email,
-  //         })
-
-  //         setCurrentUser({
-  //           id: newUser.id,
-  //           name: newUser.name,
-  //           photo: newUser.photo,
-  //           email: newUser.email,
-  //         })
-
-  //         if (currentUser) {
-  //           console.log(currentUser)
-  //           navigate('/home')
-  //         }
-  //       } catch (err) {
-  //         console.log(err)
-  //         setCurrentUser(null)
-  //       }
-  //     } else {
-  //       navigate('/')
-  //     }
-  //   })
-  // }, [auth]);
-
-  // async function handleGoogleLogin() {
-  //   const provider = new GoogleAuthProvider();
-
-  //   await signInWithPopup(auth, provider).then((result) => {
-  //     if (result.user) {
-  //       const { displayName, email, photoURL } = result.user;
-
-  //       let response: any = api.post('users', {
-  //         name: displayName,
-  //         photo: photoURL,
-  //         email: email,
-  //       })
-
-  //       setCurrentUser(response)
-
-  //       navigate('/home');
-  //     }
-  //   })
-  // }
 
   async function handleGoogleLogin() {
     setAuthing(true)
 
     await signInWithPopup(auth, new GoogleAuthProvider())
       .then(response => {
-        console.log(response.user.email)
-        navigate('/home')
+        if (response.user) {
+
+          api.post<User>('/users', {
+            "name": response.user.displayName,
+            "photo": response.user.photoURL,
+            "email": response.user.email
+          }).then(response => {
+            setCurrentUser(response.data)
+            navigate('/home')
+            setAuthing(false)
+          }).catch(error => {
+            console.log(error)
+            setAuthing(false)
+            setCurrentUser(null)
+          });
+        }
       })
       .catch(error => {
         console.log(error)
         setAuthing(false)
+        setCurrentUser(null)
       })
   }
 

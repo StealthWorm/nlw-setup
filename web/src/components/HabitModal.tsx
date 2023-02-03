@@ -25,20 +25,17 @@ export interface HabitsInfo {
 }
 
 export function HabitModal({ date, handleCompletedPercentage, completedPercentage }: HabitModalProps) {
-  const { currentUser } = useContext(AuthContext);
   const [habitsInfo, setHabitsInfo] = useState<HabitsInfo>();
+  const { currentUser } = useContext(AuthContext);
 
   const dateAndMonth = dayjs(date).format('DD/MM');
   const dayOfWeek = dayjs(date).format('dddd');
 
-  useEffect(() => {
-    getHabitsData();
-  }, []);
-
   const { mutate: getHabitsData } = useMutation(async () => {
-    const response = await api.get<HabitsInfo>('/day', {
+    await api.get<HabitsInfo>('/day', {
       params: {
         date: date.toISOString(),
+        id_user: currentUser?.id
       },
     }).then((response) => {
       setHabitsInfo(response.data);
@@ -66,10 +63,11 @@ export function HabitModal({ date, handleCompletedPercentage, completedPercentag
   //       });
   // }, []);
 
-  function handleCompletedChanged(
-    habitsInfo: HabitsInfo,
-    completedHabits: string[]
-  ) {
+  useEffect(() => {
+    getHabitsData();
+  }, []);
+  
+  function handleCompletedChanged(habitsInfo: HabitsInfo, completedHabits: string[]) {
     setHabitsInfo({
       possibleHabits: habitsInfo.possibleHabits,
       completedHabits,
