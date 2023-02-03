@@ -17,30 +17,6 @@ const secondUserId = '9e8b7b8f-2181-420a-8d90-c6bcfb505e41'
 async function run() {
   await prisma.habit.deleteMany()
   await prisma.day.deleteMany()
-  await prisma.user.deleteMany()
-
-   /**
-   * Create user
-   */
-   await Promise.all([
-    prisma.user.create({
-      data: {
-        id: firstUserId,
-        name: 'Lucas',
-        photo: 'Sem foto',
-        email: 'Lucas@gmail.com',
-      }
-    }),
-
-    prisma.user.create({
-      data: {
-        id: secondUserId,
-        name: 'juca',
-        photo: 'Sem foto',
-        email: 'Juca@gmail.com',
-      }
-    }),
-   ])
 
   /**
    * Create habits
@@ -51,7 +27,6 @@ async function run() {
         id: firstHabitId,
         title: 'Beber 2L água',
         created_at: firstHabitCreationDate,
-        // userId: firstUserId,
         weekDays: {
           create: [
             { week_day: 1 },
@@ -67,7 +42,6 @@ async function run() {
         id: secondHabitId,
         title: 'Exercitar',
         created_at: secondHabitCreationDate,
-        // userId: firstUserId,
         weekDays: {
           create: [
             { week_day: 3 },
@@ -83,7 +57,6 @@ async function run() {
         id: thirdHabitId,
         title: 'Dormir 8h',
         created_at: thirdHabitCreationDate,
-        // userId: secondUserId,
         weekDays: {
           create: [
             { week_day: 1 },
@@ -104,7 +77,7 @@ async function run() {
     prisma.day.create({
       data: {
         /** Monday */
-        date: new Date('2023-01-02T03:00:00.000z'),
+        date: new Date('2023-02-02T03:00:00.000z'),
         dayHabits: {
           create: {
             habit_id: firstHabitId,
@@ -119,7 +92,7 @@ async function run() {
     prisma.day.create({
       data: {
         /** Friday */
-        date: new Date('2023-01-06T03:00:00.000z'),
+        date: new Date('2023-02-01T03:00:00.000z'),
         dayHabits: {
           create: {
             habit_id: firstHabitId,
@@ -137,7 +110,7 @@ async function run() {
         date: new Date('2023-01-04T03:00:00.000z'),
         dayHabits: {
           create: [
-            { habit_id: firstHabitId },
+            { habit_id: firstHabitId},
             { habit_id: secondHabitId },
           ]
         }

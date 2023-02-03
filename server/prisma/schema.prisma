@@ -12,9 +12,13 @@ datasource db {
 }
 
 model Habit {
-  id         String   @id @default(uuid())
+  id String @id @default(uuid())
+
   title      String
   created_at DateTime
+  user_id    String
+
+  user User @relation(fields: [user_id], references: [id])
 
   dayHabits DayHabit[]
   weekDays  HabitWeekDays[]
@@ -48,11 +52,13 @@ model DayHabit {
 
   day_id   String
   habit_id String
+  user_id  String
 
   day   Day   @relation(fields: [day_id], references: [id])
   habit Habit @relation(fields: [habit_id], references: [id])
+  user  User  @relation(fields: [user_id], references: [id])
 
-  @@unique([day_id, habit_id])
+  @@unique([day_id, habit_id, user_id])
   @@map("day_habits")
 }
 
@@ -62,4 +68,7 @@ model User {
   name  String
   photo String
   email String
+
+  dayHabits DayHabit[]
+  Habit     Habit[]
 }
