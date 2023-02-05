@@ -137,7 +137,7 @@ export async function appRoutes(app: FastifyInstance) {
     }
   });
 
-  app.post("/users", async (request) => {
+  app.post("/users", async (request, response) => {
     const createUserBody = z.object({
       name: z.string(),
       photo: z.string(),
