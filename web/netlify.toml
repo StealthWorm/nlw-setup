@@ -6,7 +6,3 @@
   for = "/*"
     [headers.values]
     Access-Control-Allow-Origin = "*"
-[dev]
-  command = "npm run dev"
-  targetPort = 3333
-  autoLaunch = true
