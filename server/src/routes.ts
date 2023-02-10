@@ -92,7 +92,7 @@ export async function appRoutes(app: FastifyInstance) {
       id_user: z.string().uuid(),
     });
 
-    const { id,id_user } = toggleHabitParams.parse(request.params);
+    const { id, id_user } = toggleHabitParams.parse(request.params);
 
     const today = dayjs().startOf("day").toDate();
 
