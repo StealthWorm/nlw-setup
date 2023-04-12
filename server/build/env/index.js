@@ -28,7 +28,7 @@ var import_zod = require("zod");
 (0, import_dotenv.config)();
 var envSchema = import_zod.z.object({
   DATABASE_URL: import_zod.z.string(),
-  DATABASE_CLIENT: import_zod.z.enum(["sqlite", "pg"]),
+  DATABASE_CLIENT: import_zod.z.enum(["sqlite", "postgresql"]),
   PORT: import_zod.z.coerce.number().default(3333)
 });
 var _env = envSchema.safeParse(process.env);

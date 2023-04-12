@@ -192,7 +192,7 @@ async function appRoutes(app2) {
           SELECT 
             cast(count(*) as float)
           FROM day_habits DH
-          JOIN user U
+          JOIN users U
             ON U.id = DH.user_id
           WHERE DH.day_id = D.id
           AND U.id = ${id_user}
@@ -204,7 +204,8 @@ async function appRoutes(app2) {
           JOIN habits H
             ON H.id = HDW.habit_id 
           WHERE
-            HDW.week_day = cast(strftime('%w', D.date/1000.0, 'unixepoch') as int)
+            HDW.week_day = EXTRACT(ISODOW FROM D.date)::INTEGER
+            -- cast(strftime('%w', D.date/1000.0, 'unixepoch') as int)
             AND H.created_at <= D.date
             AND H.user_id = ${id_user}
         ) as amount
@@ -227,7 +228,7 @@ var import_zod2 = require("zod");
 (0, import_dotenv.config)();
 var envSchema = import_zod2.z.object({
   DATABASE_URL: import_zod2.z.string(),
-  DATABASE_CLIENT: import_zod2.z.enum(["sqlite", "pg"]),
+  DATABASE_CLIENT: import_zod2.z.enum(["sqlite", "postgresql"]),
   PORT: import_zod2.z.coerce.number().default(3333)
 });
 var _env = envSchema.safeParse(process.env);
