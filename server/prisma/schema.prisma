@@ -71,4 +71,6 @@ model User {
 
   dayHabits DayHabit[]
   Habit     Habit[]
+
+  @@map("users")
 }
