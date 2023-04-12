@@ -17,7 +17,7 @@ export function Home() {
           <div className='flex justify-between p-2 gap-4 items-center'>
             {currentUser?.photo
               ?
-              <img src={currentUser?.photo} alt="user_photo"  className="flex rounded-full w-8"/>
+              <img src={currentUser.photo} alt="user_photo"  className="flex rounded-full w-8"/>
               :
               <User size={24} />
             }

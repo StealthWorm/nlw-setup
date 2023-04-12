@@ -1,14 +1,11 @@
-version: '3.8'
+version: '3'
+
 services:
-  postgres:
-    image: postgres:10.3
-    restart: always
-    environment:
-      - POSTGRES_USER=sammy
-      - POSTGRES_PASSWORD=your_password
-    volumes:
-      - postgres:/var/lib/postgresql/data
+  api-solid-pg:
+    image: bitnami/postgresql
     ports:
-      - '5432:5432'
-volumes:
-  postgres:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=apisolid
