@@ -70,7 +70,7 @@ export function SummaryTable() {
       md:grid-rows-7 md:grid-flow-col 
       '
         >
-          {summary && summary.length > 0 &&
+          {summary && summary.length > 0 ?
             summaryDates.map((date) => {
               const dayInSummary = summary.find((day) => {
                 return dayjs(date).isSame(day.date, 'day');
@@ -84,7 +84,19 @@ export function SummaryTable() {
                   defaultCompleted={dayInSummary?.completed}
                 />
               );
-            })}
+            })
+            :
+            summaryDates.map((date) => {
+              return (
+                <HabitDay
+                  key={date.toString()}
+                  date={date}
+                  defaultAmount={0}
+                  defaultCompleted={0}
+                />
+              );
+            })
+          }
 
           {amountOdDaysToFill > 0 &&
             Array.from({ length: amountOdDaysToFill }).map((_, i) => (
