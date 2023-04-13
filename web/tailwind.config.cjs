@@ -24,7 +24,9 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+  ],
   // Enable/disable responsive design
   important: true,
   corePlugins: {

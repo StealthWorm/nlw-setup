@@ -48,7 +48,7 @@ export function HabitsList({ date, handleCompletedPercentage, habitsInfo, onComp
   const isDateInPast = dayjs(date).endOf('day').isBefore(new Date());
 
   return (
-    <div className='mt-6 flex flex-col gap-3 z-20'>
+    <div className='mt-6 flex flex-col gap-3 z-20 h-44 scrollbar-thin scrollbar-thumb-[color:var(--primary-border-color)] scrollbar-track-[color:var(--bg-color-modal)]  overflow-y-scroll'>
       {habitsInfo?.possibleHabits.map((habit) => {
         return (
           <Checkbox.Root
