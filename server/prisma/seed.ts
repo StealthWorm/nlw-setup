@@ -128,3 +128,49 @@
 //     await prisma.$disconnect()
 //     process.exit(1)
 //   })
+
+// Import the PrismaClient constructor from the @prisma/client package
+const { PrismaClient } = require('@prisma/client')
+
+// Instantiate PrismaClient
+const prisma = new PrismaClient()
+
+async function main() {
+  const user = await prisma.user.create({
+    data: {
+      name: 'John Doe',
+      photo: 'https://example.com/photo.jpg',
+      email: 'john.doe@example.com',
+    },
+  })
+
+  const habit = await prisma.habit.create({
+    data: {
+      title: 'Drink 8 glasses of water',
+      created_at: new Date(),
+      user_id: user.id,
+    },
+  })
+
+  const day = await prisma.day.create({
+    data: {
+      date: new Date(),
+    },
+  })
+
+  const dayHabit = await prisma.dayHabit.create({
+    data: {
+      day_id: day.id,
+      habit_id: habit.id,
+      user_id: user.id,
+    },
+  })
+
+  console.log('Seed data created successfully!')
+}
+
+main()
+  .catch((e) => console.error(e))
+  .finally(async () => {
+    await prisma.disconnect()
+  })
