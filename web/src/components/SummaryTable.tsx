@@ -56,9 +56,7 @@ export function SummaryTable() {
             return (
               <div
                 key={`${weekDay}-${index}`}
-                className='text-[color:var(--text-color)] text-xl font-bold h-10 w-10 flex items-center justify-center
-            
-              '
+                className='text-[color:var(--text-color)] text-xl font-bold h-10 w-10 flex items-center justify-center'
               >
                 {weekDay}
               </div>
@@ -66,8 +64,10 @@ export function SummaryTable() {
           })}
         </div>
         <div className='grid gap-3
-      sm:grid-cols-7 sm:grid-flow-row
-      md:grid-rows-7 md:grid-flow-col 
+          md:grid-rows-7 md:grid-flow-col 
+          overflow-x-auto
+          px-4
+          scrollbar-thin scrollbar-thumb-[color:var(--primary-border-color)] scrollbar-track-[color:transparent)]
       '
         >
           {summary && summary.length > 0 ?
